@@ -1,8 +1,15 @@
+import Footer from "../../../components/Footer";
+import Header from "../../../components/Header";
+import PostDetail from "../../../components/PostDetail";
 
-const PostDetail = () => {
+const PostDetailPage = () => {
   return (
-    <div>PostDetail</div>
-  )
-}
+    <>
+      <Header />
+      <PostDetail />
+      <Footer />
+    </>
+  );
+};
 
-export default PostDetail
+export default PostDetailPage;
