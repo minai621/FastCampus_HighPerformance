@@ -1,7 +1,6 @@
 import { FirebaseApp, getApp, initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-
-export let app: FirebaseApp;
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -12,6 +11,7 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_APP_ID,
 };
 
+let app: FirebaseApp;
 try {
   app = getApp("app");
 } catch (e) {
@@ -19,7 +19,8 @@ try {
 }
 
 const auth = getAuth(app);
+const db = getFirestore(app);
 
-export { auth };
+export { auth, db };
 
-// export default app;
+export default app;
