@@ -68,7 +68,7 @@ const PostList = ({ hasNavigation = true }: PostListProps) => {
                   <div className="post__date">{post?.createdAt}</div>
                 </div>
                 <div className="post__title">{post?.title}</div>
-                <div className="post__text">{post?.content}</div>
+                <div className="post__text">{post?.summary}</div>
               </Link>
               {post?.email === user?.email && (
                 <div className="post__utils-box">
