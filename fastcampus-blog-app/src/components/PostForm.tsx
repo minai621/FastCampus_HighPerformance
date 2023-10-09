@@ -16,7 +16,7 @@ const PostForm = () => {
     e.preventDefault();
 
     try {
-      await addDoc(collection(db, "post"), {
+      await addDoc(collection(db, "posts"), {
         title: title,
         summary: summary,
         content: content,
