@@ -10,7 +10,7 @@ interface PostListProps {
 
 type TabType = "all" | "my";
 
-interface PostProps {
+export interface PostProps {
   id: string;
   title: string;
   email: string;
