@@ -1,17 +1,88 @@
+import { addDoc, collection } from "firebase/firestore";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import AuthContext from "../context/AuthContext";
+import { db } from "../firebase";
+
 const PostForm = () => {
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [title, setTitle] = useState("");
+  const [summary, setSummary] = useState("");
+  const [content, setContent] = useState("");
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      await addDoc(collection(db, "post"), {
+        title: title,
+        summary: summary,
+        content: content,
+        createdAt: new Date().toLocaleDateString(),
+        email: user?.email,
+      });
+      navigate("/");
+      toast.success("게시글을 생성했습니다.");
+    } catch (e: any) {
+      toast.error(e?.code);
+    }
+  };
+
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const {
+      target: { name, value },
+    } = e;
+
+    if (name === "title") {
+      setTitle(value);
+    }
+
+    if (name === "summary") {
+      setSummary(value);
+    }
+
+    if (name === "content") {
+      setContent(value);
+    }
+  };
+
   return (
-    <form action="/post" method="POST" className="form">
+    <form onSubmit={onSubmit} className="form">
       <div className="form__block">
         <label htmlFor="title">제목</label>
-        <input type="text" name="title" id="title" required />
+        <input
+          type="text"
+          name="title"
+          id="title"
+          required
+          value={title}
+          onChange={onChange}
+        />
       </div>
       <div className="form__block">
         <label htmlFor="summary">요약</label>
-        <input type="text" name="summary" id="summary" required />
+        <input
+          type="text"
+          name="summary"
+          id="summary"
+          required
+          value={summary}
+          onChange={onChange}
+        />
       </div>
       <div className="form__block">
         <label htmlFor="content">내용</label>
-        <textarea name="content" id="content" required />
+        <textarea
+          name="content"
+          id="content"
+          required
+          value={content}
+          onChange={onChange}
+        />
       </div>
       <div className="form__block">
         <input type="submit" value="제출" className="form__btn--submit" />
