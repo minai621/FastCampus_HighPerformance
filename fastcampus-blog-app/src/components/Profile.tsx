@@ -1,7 +1,7 @@
 import { signOut } from "firebase/auth";
 import { useContext } from "react";
 import { toast } from "react-toastify";
-import AuthContext from "../context/AuthContext";
+import AuthContext from "context/AuthContext";
 import { auth } from "../firebase";
 
 const Profile = () => {

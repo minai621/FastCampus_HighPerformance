@@ -1,7 +1,7 @@
+import AuthContext from "context/AuthContext";
 import { collection, getDocs } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import AuthContext from "../context/AuthContext";
 import { db } from "../firebase";
 
 interface PostListProps {

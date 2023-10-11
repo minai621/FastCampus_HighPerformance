@@ -1,3 +1,4 @@
+import Loader from "components/Loader";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
@@ -5,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Router from "./components/Router";
 import { auth } from "./firebase";
-import Loader from "./components/Loader";
 
 function App() {
   const [init, setInit] = useState(false);
