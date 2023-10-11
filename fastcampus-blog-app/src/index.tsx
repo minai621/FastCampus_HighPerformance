@@ -1,4 +1,5 @@
 import { AuthContextProvider } from "context/AuthContext";
+import { ThemeContextProvider } from "context/ThemeContext";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
@@ -10,8 +11,10 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <AuthContextProvider>
-    <Router>
-      <App />
-    </Router>
+    <ThemeContextProvider>
+      <Router>
+        <App />
+      </Router>
+    </ThemeContextProvider>
   </AuthContextProvider>
 );
