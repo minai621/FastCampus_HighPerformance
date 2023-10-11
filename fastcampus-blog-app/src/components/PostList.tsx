@@ -29,7 +29,11 @@ export interface PostProps {
   createdAt: string;
   updatedAt?: string;
   uid: string;
+  category?: CategoryType;
 }
+
+export type CategoryType = "FE" | "BE" | "Web" | "Native";
+export const CATEGORIES: CategoryType[] = ["FE", "BE", "Web", "Native"];
 
 const PostList = ({
   hasNavigation = true,
@@ -37,7 +41,9 @@ const PostList = ({
 }: PostListProps) => {
   const { user } = useContext(AuthContext);
   const [posts, setPosts] = useState<PostProps[]>([]);
-  const [activeTab, setActiveTab] = useState<TabType>(defaultTab);
+  const [activeTab, setActiveTab] = useState<TabType | CategoryType>(
+    defaultTab
+  );
 
   const getPosts = async () => {
     setPosts([]);
@@ -49,8 +55,14 @@ const PostList = ({
         where("uid", "==", user?.uid),
         orderBy("createdAt", "asc")
       );
-    } else {
+    } else if (activeTab === "all") {
       postsQuery = query(postsRef, orderBy("createdAt", "asc"));
+    } else {
+      postsQuery = query(
+        postsRef,
+        where("category", "==", activeTab),
+        orderBy("createdAt", "asc")
+      );
     }
     const querySnapshot = await getDocs(postsQuery);
     querySnapshot?.forEach((doc) => {
@@ -90,6 +102,18 @@ const PostList = ({
           >
             나의 글
           </div>
+          {CATEGORIES.map((category) => (
+            <div
+              key={category}
+              role="presentation"
+              onClick={() => setActiveTab(category)}
+              className={
+                activeTab === category ? "post__navigation--active" : ""
+              }
+            >
+              {category}
+            </div>
+          ))}
         </div>
       )}
       <div className="post__list">
