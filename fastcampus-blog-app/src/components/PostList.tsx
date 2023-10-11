@@ -1,7 +1,8 @@
 import AuthContext from "context/AuthContext";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { db } from "../firebase";
 
 interface PostListProps {
@@ -28,11 +29,20 @@ const PostList = ({ hasNavigation = true }: PostListProps) => {
 
   const getPosts = async () => {
     const querySnapshot = await getDocs(collection(db, "posts"));
-    console.log(querySnapshot);
+    setPosts([]);
     querySnapshot?.forEach((doc) => {
       const obj = { ...doc.data(), id: doc.id };
       setPosts((prev) => [...prev, obj as PostProps]);
     });
+  };
+
+  const handleDelete = async (id: string) => {
+    const confirm = window.confirm("해당 게시글을 삭제하시겠습니까?");
+    if (confirm && id) {
+      await deleteDoc(doc(db, "posts", id));
+      toast.success("게시글을 삭제했습니다.");
+      getPosts();
+    }
   };
 
   useEffect(() => {
@@ -74,7 +84,12 @@ const PostList = ({ hasNavigation = true }: PostListProps) => {
               </Link>
               {post?.email === user?.email && (
                 <div className="post__utils-box">
-                  <div className="post__delete">삭제</div>
+                  <div
+                    className="post__delete"
+                    onClick={() => handleDelete(post?.id as string)}
+                  >
+                    삭제
+                  </div>
                   <div className="post__edit">
                     <Link to={`/posts/edit/${post?.id}`}>수정</Link>
                   </div>
