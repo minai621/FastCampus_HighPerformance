@@ -5,7 +5,7 @@ import { PostProps } from "pages/home";
 import { useContext } from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { FaRegComment, FaUserCircle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 interface PostBoxProps {
@@ -14,6 +14,7 @@ interface PostBoxProps {
 
 const PostBox = ({ post }: PostBoxProps) => {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleDelete = async () => {
     const confirm = window.confirm("삭제하시겠습니까?");
@@ -21,6 +22,7 @@ const PostBox = ({ post }: PostBoxProps) => {
       try {
         await deleteDoc(doc(db, "posts", post?.id));
         toast.success("삭제되었습니다.");
+        navigate("/");
       } catch (error) {
         toast.error("삭제되지 않았습니다.");
       }
