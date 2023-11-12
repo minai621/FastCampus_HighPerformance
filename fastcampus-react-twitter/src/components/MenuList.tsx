@@ -22,15 +22,15 @@ const MenuList = () => {
       <div className="footer__grid">
         <button type="button" onClick={() => navigate("/")}>
           <BsHouse />
-          {t("MENU_HOME")}
+          <span className="footer__grid--text">{t("MENU_HOME")}</span>
         </button>
         <button type="button" onClick={() => navigate("/profile")}>
           <BiUserCircle />
-          {t("MENU_PROFILE")}
+          <span className="footer__grid--text">{t("MENU_PROFILE")}</span>
         </button>
         <button type="button" onClick={() => navigate("/search")}>
           <AiOutlineSearch />
-          {t("MENU_SEARCH")}
+          <span className="footer__grid--text">{t("MENU_SEARCH")}</span>
         </button>
         <button
           type="button"
@@ -61,7 +61,7 @@ const MenuList = () => {
             }}
           >
             <MdLogout />
-            {t("MENU_LOGIN")}
+            <span className="footer__grid--text">{t("MENU_LOGIN")}</span>
           </button>
         )}
       </div>
