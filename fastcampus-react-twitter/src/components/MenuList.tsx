@@ -1,37 +1,51 @@
+import { languageState } from "atom";
 import AuthContext from "context/AuthContext";
 import { getAuth, signOut } from "firebase/auth";
 import app from "firebaseApp";
+import useTranslation from "hooks/useTranslation";
 import { useContext } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BiUserCircle } from "react-icons/bi";
 import { BsHouse } from "react-icons/bs";
-import { MdLogin, MdLogout } from "react-icons/md";
+import { MdLogin, MdLogout, MdOutlineLanguage } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useRecoilState } from "recoil";
 
 const MenuList = () => {
   const { user } = useContext(AuthContext);
-
+  const [language, setLanguage] = useRecoilState(languageState);
+  const t = useTranslation();
   const navigate = useNavigate();
   return (
     <div className="footer">
       <div className="footer__grid">
         <button type="button" onClick={() => navigate("/")}>
           <BsHouse />
-          Home
+          {t("MENU_HOME")}
         </button>
         <button type="button" onClick={() => navigate("/profile")}>
           <BiUserCircle />
-          Profile
+          {t("MENU_PROFILE")}
         </button>
         <button type="button" onClick={() => navigate("/search")}>
           <AiOutlineSearch />
-          Search
+          {t("MENU_SEARCH")}
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setLanguage((prev) => (prev === "ko" ? "en" : "ko"));
+            localStorage.setItem("language", language === "ko" ? "en" : "ko");
+          }}
+        >
+          <MdOutlineLanguage />
+          {language === "ko" ? "한국어" : "영어"}
         </button>
         {user === null ? (
           <button type="button" onClick={() => navigate("/users/login")}>
             <MdLogin />
-            Login
+            {t("MENU_SEARCH")}
           </button>
         ) : (
           <button
@@ -47,7 +61,7 @@ const MenuList = () => {
             }}
           >
             <MdLogout />
-            Logout
+            {t("MENU_LOGIN")}
           </button>
         )}
       </div>
